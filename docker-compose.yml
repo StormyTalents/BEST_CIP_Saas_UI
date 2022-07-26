@@ -1,0 +1,14 @@
+version: '3.6'
+services:
+  # STILL NOT WORKING WITH PRISMA 
+  web: 
+    build:
+      dockerfile: .
+      context: .
+      args:
+        STAGE: local 
+    ports:
+    - "3000:3000"
+    restart: always
+    env_file: .env.development.local
+    platform: "linux/amd64"

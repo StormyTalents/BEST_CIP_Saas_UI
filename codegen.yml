@@ -1,0 +1,37 @@
+schema:
+  - http://localhost:8080/v1/graphql:
+      headers:
+        "X-Hasura-Admin-Secret": "myadminsecretkey"
+documents:
+  - "src/framework/graphql/**/*.graphql"
+  - "!src/framework/graphql/schema.graphql"
+overwrite: true
+generates:
+  src/framework/graphql/generated.ts:
+    plugins:
+      - add:
+          content:
+            # Append to generated file to disable linter and ts check to avoid CPU overload
+            - "/* eslint-disable */"
+            - "// @ts-ignore"
+      - typescript
+      - typescript-operations
+      - typescript-react-query
+    config:
+      fetcher: "@gql/fetcher#fetcher"
+
+  # Generate schema file for local use
+  src/framework/graphql/schema.graphql:
+    plugins:
+      - schema-ast
+    config:
+      commentDescriptions: true
+
+# typescript plugin config to match postgres hasura data types to typescript ones
+config:
+  scalars:
+    uuid: string
+    timestamptz: string
+    numeric: number
+  exposeQueryKeys: true
+  addInfiniteQuery: true

@@ -1,0 +1,3 @@
+# Graphql config for auato completion in IDE
+schema: "src/framework/graphql/schema.graphql"
+documents: "src/framework/graphql/**/*.graphql"

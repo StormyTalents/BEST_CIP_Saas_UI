@@ -1,0 +1,59 @@
+[
+  {
+    "id": 1,
+    "path": "/",
+    "label": "Home"
+  },
+  {
+    "id": 2,
+    "path": "/",
+    "label": "Pricing"
+  },
+  {
+    "id": 3,
+    "path": "/",
+    "label": "All Items"
+  },
+  {
+    "id": 4,
+    "path": "/",
+    "label": "Bundles"
+  },
+  {
+    "id": 5,
+    "path": "/",
+    "label": "T-Shirt Designs",
+    "badge": "Popular"
+  },
+  {
+    "id": 6,
+    "path": "/",
+    "label": "Vector Packs"
+  },
+  {
+    "id": 7,
+    "path": "/",
+    "label": "NFT Art"
+  },
+  {
+    "id": 8,
+    "path": "/",
+    "label": "Freebies"
+  },
+  {
+    "id": 9,
+    "path": "/",
+    "label": "Blog"
+  },
+  {
+    "id": 10,
+    "path": "/",
+    "label": "Contact"
+  },
+  {
+    "id": 11,
+    "path": "/",
+    "label": "Online Designer",
+    "icon": "palette"
+  }
+]

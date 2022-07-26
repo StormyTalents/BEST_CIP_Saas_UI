@@ -1,0 +1,112 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "T-shirt Designs",
+            "slug": "t-shirt-designs",
+            "image": {
+                "original": "/assets/placeholder/sample-categories/category_tshirts.webp"
+            },
+            "productCount": 4657
+        },
+        {
+            "id": 2,
+            "name": "Vector Packs",
+            "slug": "vector-packs",
+            "image": {
+                "original": "/assets/placeholder/sample-categories/category_vector-packs.webp"
+            },
+            "productCount": 1895
+        },
+        {
+            "id": 3,
+            "name": "Fonts",
+            "slug": "fonts",
+            "image": {
+                "original": "/assets/placeholder/sample-categories/category_fonts.webp"
+            },
+            "productCount": 74
+        },
+        {
+            "id": 4,
+            "name": "Photoshop Brushes",
+            "slug": "photoshop-brushes",
+            "image": {
+                "original": "/assets/placeholder/sample-categories/category_photoshop-brushes.webp"
+            },
+            "productCount": 201
+        },
+        {
+            "id": 5,
+            "name": "Vector Patterns",
+            "slug": "vector-patterns",
+            "image": {
+                "original": "/assets/placeholder/sample-categories/category_patterns.webp"
+            },
+            "productCount": 177
+        },
+        {
+            "id": 6,
+            "name": "Typographic Templates",
+            "slug": "typographic-templates",
+            "image": {
+                "original": "/assets/placeholder/sample-categories/category_typographic-templates.webp"
+            },
+            "productCount": 70
+        },
+        {
+            "id": 7,
+            "name": "Vector Illustrations",
+            "slug": "vector-illustrations",
+            "image": {
+                "original": "/assets/placeholder/sample-categories/category_illustrations.webp"
+            },
+            "productCount": 10576
+        },
+        {
+            "id": 8,
+            "name": "Textures",
+            "slug": "textures",
+            "image": {
+                "original": "/assets/placeholder/sample-categories/category_textures.webp"
+            },
+            "productCount": 96
+        },
+        {
+            "id": 9,
+            "name": "SVG-PNG Clip Art and Icons",
+            "slug": "svg-png-clip-art-and-icons",
+            "image": {
+                "original": "/assets/placeholder/sample-categories/category_clip-art.webp"
+            },
+            "productCount": 15195
+        },
+        {
+            "id": 10,
+            "name": "Zilla - Super Bundles",
+            "slug": "zilla-super-bundles",
+            "image": {
+                "original": "/assets/placeholder/sample-categories/category_zilla.webp"
+            },
+            "productCount": 26
+        },
+        {
+            "id": 11,
+            "name": "Crafts",
+            "slug": "crafts",
+            "image": {
+                "original": "/assets/placeholder/sample-categories/category_crafts.webp"
+            },
+            "productCount": 81
+        },
+        {
+            "id": 12,
+            "name": "Logos and Icons",
+            "slug": "logos-and-icons",
+            "image": {
+                "original": "/assets/placeholder/sample-categories/category_logos.webp"
+            },
+            "productCount": 349
+        }
+    ]
+}

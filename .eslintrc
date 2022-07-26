@@ -1,0 +1,10 @@
+{
+  "extends": ["next", "plugin:prettier/recommended"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "warn",
+    // This rule will warn if an arrow function returns React elements
+    // Mostly appear in forwareRefs but no actual benefits
+    "react/display-name": "off"
+  }
+}

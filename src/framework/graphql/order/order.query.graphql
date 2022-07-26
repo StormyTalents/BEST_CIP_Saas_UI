@@ -1,0 +1,5 @@
+query order($id: uuid!) {
+  orders_by_pk(id: $id) {
+    ...Order
+  }
+}

@@ -1,0 +1,152 @@
+ahoyapi: v2
+
+commands:
+  teardown:
+    usage: Drops databases
+    cmd: |
+      docker-compose run api rails db:drop
+
+  init:
+    usage: import variables for development
+    cmd: |
+      chamber export --format dotenv local-api-web | sed -e 's/\"//g' | sed -e 's/user1/'"$(echo $USER)"'/g' > .env.api.local      
+
+  setup:
+    usage: setup for development
+    cmd: |
+      ahoy init
+      docker-compose run web rails db:create
+      docker-compose run web rails db:migrate
+      docker-compose run web rails db:seed
+
+  up:
+    usage: run local docker
+    cmd: docker-compose up --build
+
+  down:
+    usage: remove local docker
+    cmd: docker-compose down
+
+  migrate:
+    usage: migrate db
+    cmd: docker-compose run web rails db:migrate
+
+  console:
+    usage: access rails console on local docker container
+    cmd: docker-compose run web rails console
+
+  docker:login:
+    usage: docker login
+    cmd: |
+      $(aws ecr get-login --no-include-email --region $REGION)
+
+  params:list:
+    usage: List environment variables from AWS Parameter Store
+    cmd: |
+      chamber list -e $PARAM_STORE | sort
+
+  params:export:
+    usage: Export environment variables from AWS Parameter Store
+    cmd: |      
+      echo "Copying key-value pairs from $PARAM_STORE"
+      chamber export --format dotenv $PARAM_STORE | sed -e 's/\"//g' > .env.dev
+
+  params:write:
+    usage: |
+      Write to AWS Parameter store from local environment. state no-dry-run to actually push to param store.
+      ahoy params:write <no-dry-run>
+    cmd: |      
+      if [ "$1" = 'no-dry-run' ] ; then
+        . bin/chamber_import --env .env.dev --service $PARAM_STORE
+      else
+        . bin/chamber_import --env .env.dev --service $PARAM_STORE --dry-run
+      fi
+
+  docker:build:
+    cmd: |      
+      docker build -t $APP_NAME .
+
+  docker:bash:
+    cmd: docker exec -it api bash
+
+  docker:tag:
+    cmd: |      
+      docker tag $APP_NAME:latest 504242100001.dkr.ecr.$REGION.amazonaws.com/$APP_NAME:latest
+
+  docker:push:
+    cmd: |      
+      docker push 504242100001.dkr.ecr.$REGION.amazonaws.com/$APP_NAME:latest
+
+  docker:ship:
+    cmd: |
+      ahoy docker:login
+      ahoy params:list
+      ahoy params:export
+      ahoy docker:build
+      ahoy docker:tag
+      ahoy docker:push
+
+  docker:ecr:create:
+    usage: create ecr
+    cmd: aws ecr create-repository --repository-name $1
+
+  ecr:create:
+    usage: create ecr repo
+    cmd: |
+      . bin/env
+      aws ecr create-repository --repository-name $1
+
+  ecr:login:
+    usage: ecr login
+    cmd: |
+      . bin/env
+      $(aws ecr get-login --no-include-email --region $REGION)
+
+  docker:build:
+    cmd: |
+      . bin/env
+      docker build -t $1:latest ./$1
+
+  docker:push:
+    cmd: |
+      . bin/env
+      docker push $AWSID.dkr.ecr.$REGION.amazonaws.com/$1:latest
+
+  docker:tag:
+    cmd: |
+      . bin/env
+      docker tag $1:latest $AWSID.dkr.ecr.$REGION.amazonaws.com/$1:latest
+
+  docker:ship:
+    cmd: |
+      ahoy ecr:login
+      ahoy docker:build $1
+      ahoy docker:tag $1
+      ahoy docker:push $1
+
+  cp:svc:restart:
+    usage: ahoy cp:sv:restart <env> - stop svc's tasks
+    cmd: |
+      clust=$(aws ecs list-clusters | jq ".clusterArns[] | select(.|test(\"roms-$1\"))" | sed -e 's/^"//' -e 's/"$//' | cut -d/ -f 2)
+      echo "Stopping Tasks for $clust"
+      aws ecs list-tasks --cluster $clust | jq -r ".taskArns[]" | awk '{print "aws ecs stop-task --cluster '$clust' --task \""$0"\" --no-paginate"}' | sh
+
+  cp:secret:
+    usage: ahoy cp:secret <app> <env> <parameter> <value>
+    cmd: |
+      path="$1/$2"
+      ahoy params:add $1/$2 $3 $4
+      aws ssm add-tags-to-resource \
+        --resource-type Parameter \
+        --resource-id $path \
+        --tags "[{\"Key\":\"copilot-application\",\"Value\":\"$1\"},{\"Key\":\"copilot-environment\", \"Value\":\"$2\"}]"
+
+  cp:deploy:
+    usage: ahoy cp:deploy <env> <svc name> - deploys the container to the aws ecs service
+    cmd: |
+      copilot svc deploy --env $1 -n $2 --tag ${3:-latest}
+
+  cp:secrets:
+    usage: send secrets in yaml 
+    cmd: | 
+      copilot secret init --cli-input-yaml .secrets.yml --overwrite
