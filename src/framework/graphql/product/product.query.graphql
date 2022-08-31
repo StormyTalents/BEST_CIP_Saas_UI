@@ -1,5 +1,0 @@
-query product($id: uuid!) {
-  products_by_pk(id: $id) {
-    ...Product
-  }
-}
