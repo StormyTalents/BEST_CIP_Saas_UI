@@ -1,0 +1,10 @@
+query orders($limit: Int, $offset: Int) {
+  orders(limit: $limit, offset: $offset) {
+    ...Order
+  }
+  orders_aggregate {
+    aggregate {
+      count
+    }
+  }
+}
